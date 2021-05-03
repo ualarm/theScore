@@ -24,7 +24,7 @@ Based on my understanding of required automation steps, the implementation is pe
 * Verify Team and Player tab is displayed 
 
 Note: 
-* "theScoreTest.json" currently is simple, for the purpose of demonstrating data driven approach, more data can be included this way
+* I changed data driven approach to use parameters in testNG.xml
 
 Bonus Question:
 * The data driven approach can be expanded to cover list of devices and iterations of different team/player
