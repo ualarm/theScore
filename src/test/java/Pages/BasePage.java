@@ -14,6 +14,7 @@ public class BasePage {
         this.driver = driver;
         this.wait = w;
     }
+
     protected WebElement find(By locator) {
         return driver.findElement(locator);
     }

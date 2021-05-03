@@ -1,36 +1,24 @@
 import Pages.*;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import java.io.FileReader;
+import org.testng.annotations.*;
 
 public class theScoreTest {
 
     private AndroidDriver<MobileElement> driver;
     private WebDriverWait                wait;
-    public String searchCriteria;
-    public String searchCategory;
-    public String deviceName;
-    public String deviceId;
     private final String dataFileDir = "testdata";
 
-    private void printInfo() {
+    @Parameters({"deviceName", "deviceId", "searchCategory", "searchCriteria"})
+    private void printInfo(String deviceName, String deviceId, String searchCategory, String searchCriteria) {
         System.out.println();
         System.out.println("deviceName: " + deviceName);
         System.out.println("deviceID: " + deviceId);
@@ -38,27 +26,9 @@ public class theScoreTest {
         System.out.println("searchCategory: " + searchCategory);
     }
 
-    private void getTestData() {
-        JsonParser jsonParser = new JsonParser();
-        try (FileReader reader =
-                     new FileReader(dataFileDir + File.separator + "theScoreTest.json"))
-        {
-            //Read test data file
-            Object obj = jsonParser.parse(reader);
-
-            JsonObject dataSet = (JsonObject) obj;
-            searchCriteria = dataSet.get("searchCriteria").getAsString();
-            searchCategory = dataSet.get("searchCategory").getAsString();
-            deviceName = dataSet.get("deviceName").getAsString();
-            deviceId = dataSet.get("deviceID").getAsString();
-        }  catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @BeforeMethod
-    public void setup() throws MalformedURLException {
-        getTestData();
+    @Parameters({"deviceName", "deviceId"})
+    public void setup(String deviceName, String deviceId) throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability("deviceName", deviceName);
         caps.setCapability("udid", deviceId); //DeviceId from "adb devices" command
@@ -98,9 +68,10 @@ public class theScoreTest {
         }
     }
 
-    @Test
-    public void theScoreTest1() {
-        printInfo();
+    @Test(retryAnalyzer = Retry.class)
+    @Parameters({"deviceName", "deviceId", "searchCategory", "searchCriteria"})
+    public void theScoreTest1(String deviceName, String deviceId, String searchCategory, String searchCriteria) {
+        printInfo(deviceName, deviceId, searchCategory, searchCriteria);
         location_permission_and_favorite();
 
         try {

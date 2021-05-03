@@ -1,7 +1,23 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="theScoreSuite" verbose="1">
-    <test name="SampleTest">
+    <test name="TeamTest">
+        <parameter name="deviceName" value="Pixel XL API 30" />
+        <parameter name="deviceId" value="emulator-5554" />
+        <parameter name="searchCategory" value="Team" />
+        <parameter name="searchCriteria" value="Raptors" />
+
+        <classes>
+            <class name="theScoreTest"/>
+        </classes>
+    </test>
+
+    <test name="PlayerTest">
+        <parameter name="deviceName" value="Pixel XL API 30" />
+        <parameter name="deviceId" value="emulator-5554" />
+        <parameter name="searchCategory" value="Player"/>
+        <parameter name="searchCriteria" value="LeBron" />
+
         <classes>
             <class name="theScoreTest"/>
         </classes>
